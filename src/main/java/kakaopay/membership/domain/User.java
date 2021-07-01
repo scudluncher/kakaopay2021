@@ -20,6 +20,10 @@ public class User {
         return userId;
     }
 
+    public User(String id){
+        this.userId = id;
+    }
+
 
 
 

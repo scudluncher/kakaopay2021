@@ -19,6 +19,15 @@ import kakaopay.membership.common.MembershipType;
 public class UserMembershipInfo {
     
     public UserMembershipInfo(){};
+
+    public UserMembershipInfo(Long infoSeq, MembershipType membershipType, User user, LocalDateTime startDate, BigDecimal point, String membershipStatus){
+        this.infoSeq = infoSeq;
+        this.membershipType = membershipType;
+        this.user = user;
+        this.startDate = startDate;
+        this.point = point;
+        this.membershipStatus = membershipStatus;
+    }
     
     @Id
     @Column(name="INFO_SEQ")

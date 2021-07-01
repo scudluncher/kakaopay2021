@@ -1,4 +1,4 @@
-package com.kakaopay.rest.membership;
+package kakaopay.membership;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -2,16 +2,29 @@ package kakaopay.membership.common;
 
 public class CustomResponse {
 
-    String success;
+    boolean success;
     Object response;
     ErrorResponse error;
 
+    //for error case
+    public CustomResponse(ErrorResponse error){
+        this.success = false;
+        this.response = null;
+        this.error = error;
+    }
     
-    public String getSuccess() {
+    //for success case
+    public CustomResponse(Object response){
+        this.success = true;
+        this.response = response;
+        this.error = null;
+    }
+
+    public boolean getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
 
@@ -32,29 +45,6 @@ public class CustomResponse {
     }
 
 
-    class ErrorResponse{
-        String message;
-        int status;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-
-        
-    }
 
     
 }

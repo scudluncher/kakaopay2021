@@ -10,6 +10,7 @@ import kakaopay.membership.domain.UserMembershipInfo;
 
 public class UserMembershipInfoDTO {
     
+    public UserMembershipInfoDTO(){};
     
     private int seq;  // it is for display sequence 
     private String membershipId;
@@ -22,7 +23,7 @@ public class UserMembershipInfoDTO {
 
     public UserMembershipInfoDTO(UserMembershipInfo info, int seq) {
         this.seq = seq;
-        this.userId = info.getUser().getUserId();
+        this.userId = info.getUser().getUserId();   
         this.membershipId = info.getMembershipType().name();
         this.membershipName = info.getMembershipType().getMembershipName();
         this.startDate = info.getStartDate();

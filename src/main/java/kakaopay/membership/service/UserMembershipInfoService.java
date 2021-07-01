@@ -18,13 +18,18 @@ public class UserMembershipInfoService {
     private UserMembershipInfoRepository userMembershipInfoRepository;
 
     
-    public List<UserMembershipInfoDTO> getMembershipInfoByUserId(String userId){
-        List <UserMembershipInfo> list = userMembershipInfoRepository.findByUser_UserId(userId);
+    public List<UserMembershipInfoDTO> getMembershipInfoByUserIdAsDTO(String userId){
+        List <UserMembershipInfo> list = this.getMembershipInfoByUserId(userId);
         AtomicInteger count=new AtomicInteger(0);
         List <UserMembershipInfoDTO> dtoList = list.stream()
                                                     .map(info-> new UserMembershipInfoDTO(info, count.incrementAndGet()))
                                                     .collect(Collectors.toList());
         return dtoList;
+    }
+
+    public List<UserMembershipInfo> getMembershipInfoByUserId(String userId){
+        return userMembershipInfoRepository.findByUser_UserId(userId);
+
     }
     
     
