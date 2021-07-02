@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import kakaopay.membership.common.CustomResponse;
 import kakaopay.membership.common.ErrorResponse;
 import kakaopay.membership.common.MembershipType;
-import kakaopay.membership.controller.MembershipRestController;
 import kakaopay.membership.domain.User;
 import kakaopay.membership.domain.UserMembershipInfo;
 import kakaopay.membership.domain.dto.UserMembershipInfoDTO;
@@ -67,6 +66,12 @@ public class MembershipRestControllerTest {
     }
 
 
+    @Test
+    @DisplayName("멤버쉽을 저장하고 전체 멤버쉽을 반환한다")
+    void saveMembershipInfoByUserId(){
+        
+
+    }
 
 
 

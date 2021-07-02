@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ public class UserMembershipInfo {
     }
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="INFO_SEQ")
     private Long infoSeq;
 
@@ -72,6 +75,11 @@ public class UserMembershipInfo {
 
     public String getMembershipStatus() {
         return membershipStatus;
+    }
+
+    public void addPoint(BigDecimal amount){
+        BigDecimal pointGained = amount.multiply(this.getMembershipType().getPercntg());
+        this.point = this.point.add(pointGained);
     }
 
 

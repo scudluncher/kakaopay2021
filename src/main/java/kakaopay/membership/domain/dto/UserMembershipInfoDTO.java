@@ -3,6 +3,7 @@ package kakaopay.membership.domain.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import kakaopay.membership.domain.UserMembershipInfo;
 
@@ -14,10 +15,10 @@ public class UserMembershipInfoDTO {
     
     private int seq;  // it is for display sequence 
     private String membershipId;
-    private String userId;
     private String membershipName;
-    private LocalDateTime startDate;
+    private String userId;
     private BigDecimal point;  
+    private LocalDateTime startDate;
     private String membershipStatus;
 
 
@@ -67,7 +68,7 @@ public class UserMembershipInfoDTO {
     }
 
     public LocalDateTime getStartDate() {
-        return startDate;
+        return startDate.truncatedTo(ChronoUnit.MINUTES);
     }
 
     public void setStartDate(LocalDateTime startDate) {

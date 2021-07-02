@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import kakaopay.membership.common.MembershipType;
 import kakaopay.membership.domain.User;
 import kakaopay.membership.domain.UserMembershipInfo;
-import kakaopay.membership.domain.dto.UserMembershipInfoDTO;
 
 public class UserMembershipInfoDTOTest {
     

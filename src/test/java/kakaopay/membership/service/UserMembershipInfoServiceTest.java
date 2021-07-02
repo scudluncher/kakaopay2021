@@ -1,5 +1,7 @@
 package kakaopay.membership.service;
 
+import static org.mockito.BDDMockito.given;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,9 +19,6 @@ import kakaopay.membership.common.MembershipType;
 import kakaopay.membership.domain.User;
 import kakaopay.membership.domain.UserMembershipInfo;
 import kakaopay.membership.repository.UserMembershipInfoRepository;
-import kakaopay.membership.service.UserMembershipInfoService;
-
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 public class UserMembershipInfoServiceTest {
