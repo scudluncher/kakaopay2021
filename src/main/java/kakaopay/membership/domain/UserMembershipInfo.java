@@ -83,7 +83,9 @@ public class UserMembershipInfo {
     }
 
 
-    
+    public void deactivateMembership(){
+        this.membershipStatus = "N";
+    }    
 
 
 }

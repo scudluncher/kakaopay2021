@@ -25,10 +25,10 @@ public class UserMembershipInfoServiceTest {
     
 
     @InjectMocks
-    UserMembershipInfoService userMembershipInfoService;
+    UserMembershipInfoService userMembershipInfoSvc;
 
     @Mock
-    UserMembershipInfoRepository userMembershipInfoRepository;
+    UserMembershipInfoRepository membershipInfoRepo;
 
 
     @Test
@@ -45,14 +45,16 @@ public class UserMembershipInfoServiceTest {
         membershipList.add(info2);
         membershipList.add(info3);
 
-        given(userMembershipInfoRepository.findByUser_UserId(userId)).willReturn(membershipList);
-        List<UserMembershipInfo> membershitListByGet = userMembershipInfoService.getMembershipInfoByUserId(userId);
-        Assertions.assertEquals(membershipList, membershitListByGet);
-
-
-
+        given(membershipInfoRepo.findByUser_UserId(userId)).willReturn(membershipList);
+        List<UserMembershipInfo> membershipListByGet = userMembershipInfoSvc.getMembershipInfoByUserId(userId);
+        Assertions.assertEquals(membershipList, membershipListByGet);
     }
 
+    @Test
+    @DisplayName("멤버쉽 정보를 신규로 생성한다.")
+    void createMembershipInfoByUserId(){
+        
+    }
 
 
 }

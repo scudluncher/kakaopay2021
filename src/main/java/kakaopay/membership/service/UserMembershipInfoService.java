@@ -5,10 +5,10 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import kakaopay.membership.common.MembershipType;
 import kakaopay.membership.domain.User;
@@ -38,31 +38,51 @@ public class UserMembershipInfoService {
     }
 
     public List<UserMembershipInfo> getMembershipInfoByUserId(String userId){
-        return membershipRepo.findByUser_UserId(userId);
+        List<UserMembershipInfo> infoList = membershipRepo.findByUser_UserId(userId);
+        if(infoList.isEmpty()){
+            throw new NoSuchElementException();
+        }
+        return infoList;
     }
 
 
-    public UserMembershipInfo saveMembershipInfoByUserId(String userId, UserMembershipReqDTO reqDto ){
+    public UserMembershipInfo createMembershipInfoByUserId(String userId, UserMembershipReqDTO reqDto){
         User user = userRepository.findById(userId).orElseThrow(()->new NoSuchElementException());
         UserMembershipInfo membershipInfo = reqDto.toPostEntity(user);
         return membershipRepo.save(membershipInfo);
     }
 
-    public void deactivateMembershipInfoByUserId(String userId, String membershipId){
-        UserMembershipInfo savedMembershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
-        membershipRepo.delete(savedMembershipInfo);        
+
+    @Transactional
+    public void deactivateMembershipInfoByUserId(String userId, String membershipId) {
+        UserMembershipInfo savedMembershipInfo = findMembershipByUserIdAndMembershipId(userId, membershipId);
+        savedMembershipInfo.deactivateMembership();
     }
 
 
+
+
     public UserMembershipInfoDTO getMembershipByMembershipIdAndUserId(String userId, String membershipId){
-        UserMembershipInfo savedMembershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
+        UserMembershipInfo savedMembershipInfo = findMembershipByUserIdAndMembershipId(userId, membershipId);
         UserMembershipInfoDTO infoDto = new UserMembershipInfoDTO(savedMembershipInfo, 1);
         return infoDto;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    private UserMembershipInfo findMembershipByUserIdAndMembershipId(String userId, String membershipId){
+        UserMembershipInfo membershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
+        if (membershipInfo==null){
+            throw new NoSuchElementException();
+        }else {
+            return membershipInfo;
+        }
+    }
+
+
     @Transactional
-    public void addMembershipPointDependingAmountForUser(String userId, UserMembershipReqDTO reqDto){
-        UserMembershipInfo savedMembershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(reqDto.getMembershipId()));
+    public void addMembershipPointDependingAmountForUser(String userId, UserMembershipReqDTO reqDto) throws NoSuchElementException{
+        UserMembershipInfo savedMembershipInfo = findMembershipByUserIdAndMembershipId(userId, reqDto.getMembershipId());
         savedMembershipInfo.addPoint(reqDto.getAmount());
     }
     
