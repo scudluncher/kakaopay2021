@@ -1,5 +1,7 @@
 package kakaopay.membership.common;
 
+import org.springframework.http.HttpStatus;
+
 public class CustomResponse {
 
     boolean success;
@@ -42,6 +44,15 @@ public class CustomResponse {
 
     public void setError(ErrorResponse error) {
         this.error = error;
+    }
+
+    public CustomResponse(String message, HttpStatus httpStatus){
+        ErrorResponse errRep = new ErrorResponse(message, httpStatus);
+        this.success = false;
+        this.response = null;
+        this.error = errRep;
+
+
     }
 
 

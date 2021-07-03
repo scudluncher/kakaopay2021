@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityExistsException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,6 +50,9 @@ public class UserMembershipInfoService {
 
     public UserMembershipInfo createMembershipInfoByUserId(String userId, UserMembershipReqDTO reqDto){
         User user = userRepository.findById(userId).orElseThrow(()->new NoSuchElementException());
+
+        membershipExistCheck(userId, reqDto.getMembershipId());
+
         UserMembershipInfo membershipInfo = reqDto.toPostEntity(user);
         return membershipRepo.save(membershipInfo);
     }
@@ -59,6 +64,13 @@ public class UserMembershipInfoService {
         savedMembershipInfo.deactivateMembership();
     }
 
+
+    private void membershipExistCheck(String userId, String membershipId){
+        UserMembershipInfo saveCheckMembership = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
+        if(saveCheckMembership!=null){// user already registered membership!
+            throw new EntityExistsException();
+        }
+    }
 
 
 
