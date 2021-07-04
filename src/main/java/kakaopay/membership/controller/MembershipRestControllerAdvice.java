@@ -1,6 +1,5 @@
 package kakaopay.membership.controller;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.persistence.EntityExistsException;
@@ -17,30 +16,38 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import kakaopay.membership.common.CustomResponse;
-import kakaopay.membership.common.exception.ParameterMissingException;
+import kakaopay.membership.common.exception.AlreadyRegisteredMembershipException;
+import kakaopay.membership.common.exception.NotRegisteredMembershipException;
+import kakaopay.membership.common.exception.NotRegisteredUserException;
+import kakaopay.membership.common.exception.WrongMembershipIdException;
 
 @RestControllerAdvice
 public class MembershipRestControllerAdvice {
     
-    //when there is no jpa entity with parameter
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<CustomResponse> noSuchElementHandler(){
-        CustomResponse rep = new CustomResponse("no element found" , HttpStatus.NOT_FOUND);
+
+    @ExceptionHandler(NotRegisteredMembershipException.class)
+    public ResponseEntity<CustomResponse> notRegisteredMembershipExceptionHandler(){
+        CustomResponse rep = new CustomResponse("no membership registered with X-USER-ID" , HttpStatus.NOT_FOUND);
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.NOT_FOUND);
     }
 
-    //when parameter is missing
-    @ExceptionHandler(ParameterMissingException.class)
-    public ResponseEntity<CustomResponse> parameterMissingHandler(){
-        CustomResponse rep = new CustomResponse("parameter missing", HttpStatus.BAD_REQUEST);
+
+    @ExceptionHandler(NotRegisteredUserException.class)
+    public ResponseEntity<CustomResponse> notRegisteredUserExceptionHandler(){
+        CustomResponse rep = new CustomResponse("no user registed with X-USER-ID" , HttpStatus.NOT_FOUND);
+        return new ResponseEntity<CustomResponse>(rep, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AlreadyRegisteredMembershipException.class)
+    public ResponseEntity<CustomResponse> alreadyRegisteredMembershipExceptionHandler(){
+        CustomResponse rep = new CustomResponse("already registered membership", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);
     }
 
 
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<CustomResponse> illegarArgumentExceptionHandler(){
-        CustomResponse rep = new CustomResponse("illegar argument(parameter) is passed", HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(WrongMembershipIdException.class)
+    public ResponseEntity<CustomResponse> wrongMembershipIdExceptionHandler(){
+        CustomResponse rep = new CustomResponse("check membership id", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);
     }
 
@@ -52,15 +59,15 @@ public class MembershipRestControllerAdvice {
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);
     }
  
-    //when pathvariable is missing or not supported method is called
+    //when pathvariable is missing or not supported method is called  --> done
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<CustomResponse> httpRequestMethodNotSupportedExceptionHandler(){
-        CustomResponse rep = new CustomResponse("not supported request, check its method or pathvariable parameter", HttpStatus.BAD_REQUEST);
+        CustomResponse rep = new CustomResponse("check its method or pathvariable parameter", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);
     }
 
 
-    //request header is omitted
+    //request header is omitted --> done
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseEntity<CustomResponse> missingRequestHeaderExceptionHandler(HttpServletRequest req){
         if(req.getHeader("content-type")==null){
@@ -75,7 +82,7 @@ public class MembershipRestControllerAdvice {
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);    
     }
 
-    //negative point, negative amount
+    //negative point, negative amount --> d
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
         StringBuilder message = new StringBuilder();
@@ -85,7 +92,7 @@ public class MembershipRestControllerAdvice {
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.BAD_REQUEST);
     }
 
-    //not proper request header
+    //not proper request header --> done
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<CustomResponse> constraintViolationExceptionHandler(ConstraintViolationException e){
         StringBuilder message = new StringBuilder();
@@ -103,4 +110,9 @@ public class MembershipRestControllerAdvice {
         CustomResponse rep = new CustomResponse("internal error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<CustomResponse>(rep, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    
+
+
 }

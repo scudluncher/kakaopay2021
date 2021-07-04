@@ -8,6 +8,12 @@ public class CustomResponse {
     Object response;
     ErrorResponse error;
 
+    public CustomResponse(){};
+    public CustomResponse(boolean success, Object response, ErrorResponse error){
+        this.success = success;
+        this.response = response;
+        this.error = error;
+    };
     //for error case
     public CustomResponse(ErrorResponse error){
         this.success = false;

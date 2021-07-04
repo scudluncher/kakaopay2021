@@ -20,10 +20,10 @@ public class UserMembershipReqDTO {
     private String membershipId;
     private String membershipName;
 
-    @Min(value=0, message="point value should be positve number")
+    @Min(value=0, message="check point value")
     private BigDecimal point;
 
-    @Min(value=0, message="amount value should not be negative number")
+    @Min(value=0, message="check amount value")
     private BigDecimal amount;
 
 
@@ -46,10 +46,9 @@ public class UserMembershipReqDTO {
 
 
     public UserMembershipInfo toPostEntity(User user){
-        BigDecimal pointAsBigDecimal = this.point;
         MembershipType membershipType = MembershipType.valueOf(this.membershipId);
         //create entity object to persist
-        UserMembershipInfo membershipInfo = new UserMembershipInfo(null, membershipType, user, LocalDateTime.now(), pointAsBigDecimal,"Y");
+        UserMembershipInfo membershipInfo = new UserMembershipInfo(null, membershipType, user, LocalDateTime.now(), point,"Y");
         return membershipInfo;
     }
 

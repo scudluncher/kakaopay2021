@@ -14,7 +14,7 @@ import kakaopay.membership.domain.UserMembershipInfo;
 public class UserMembershipInfoDTOTest {
     
     @Test
-    @DisplayName("DTO 변환이 정상적으로 이루어진다.")
+    @DisplayName("Entity -> InfoDTO 로 변환이 정상적으로 이루어진다.")
     void DtoConstructorTest(){
 
         final int seq = 1;

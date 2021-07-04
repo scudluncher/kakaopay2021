@@ -6,6 +6,8 @@ public class ErrorResponse {
     String message;
     int status;
 
+    public ErrorResponse(){};
+
     public ErrorResponse(String message, HttpStatus httpStatus){
         this.message = message;
         this.status = httpStatus.value();
@@ -18,6 +20,7 @@ public class ErrorResponse {
     public int getStatus() {
         return status;
     }
+
 
 
 

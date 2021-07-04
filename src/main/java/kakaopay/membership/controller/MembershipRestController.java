@@ -40,8 +40,8 @@ public class MembershipRestController {
 
     final private String userIdCheck = "X-USER-ID is blank";
 
-    //요구사항1
-    @GetMapping("/api/v1/membership")
+    //멤버십 전체조회하기
+    @GetMapping("/api/v1/membership" )
     public ResponseEntity<CustomResponse> getMembershipInfoByUserId(@RequestHeader(value="X-USER-ID")@Size(min=1, message= userIdCheck) String userId){
         List <UserMembershipInfoDTO> dtoList = userMembershipInfoService.getMembershipInfoByUserIdAsDTO(userId);
         CustomResponse rep = new CustomResponse(dtoList);
@@ -49,7 +49,7 @@ public class MembershipRestController {
     }
 
 
-    
+    //멤버십 등록하기
     @PostMapping(value = "/api/v1/membership", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse> saveMembershipInfoByUserId(@RequestHeader(value="X-USER-ID")@Size(min=1, message= userIdCheck) String userId, 
                                                                      @RequestBody @Valid UserMembershipReqDTO reqDto){
@@ -60,7 +60,7 @@ public class MembershipRestController {
         return ResponseEntity.ok(rep);
     }
 
-
+    //멤버십 삭제(비활성화)하기
     @DeleteMapping("/api/v1/membership/{membershipId}")
     public ResponseEntity<CustomResponse> deactivateMembershipInfoByUserId(@RequestHeader(value="X-USER-ID")@Size(min=1, message= userIdCheck) String userId, 
                                                                            @PathVariable String membershipId){
@@ -69,6 +69,7 @@ public class MembershipRestController {
         return ResponseEntity.ok(rep);
     }
 
+    //멤버십 상세 조회하기
     @GetMapping(value = "/api/v1/membership/{membershipId}")
     public ResponseEntity<CustomResponse> getMembershipByMembershipIdAndUserId(@RequestHeader(value="X-USER-ID")@Size(min=1, message= userIdCheck) String userId,
                                                                                @PathVariable String membershipId){
@@ -77,6 +78,8 @@ public class MembershipRestController {
         return ResponseEntity.ok(rep);
     }
 
+
+    //포인트 적립하기
     @PutMapping(value = "/api/v1/membership/point", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponse> addMembershipPointDependingAmountForUser(@RequestHeader(value="X-USER-ID")@Size(min=1, message= userIdCheck) String userId,
                                                                                    @RequestBody @Valid UserMembershipReqDTO reqDto){
