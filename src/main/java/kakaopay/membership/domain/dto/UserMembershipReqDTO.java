@@ -55,8 +55,6 @@ public class UserMembershipReqDTO {
         }catch(IllegalArgumentException e){
             throw new WrongMembershipIdException();
         }
-
-       
     }
 
 
