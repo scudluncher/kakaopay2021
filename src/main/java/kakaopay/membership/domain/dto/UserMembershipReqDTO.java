@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import org.springframework.validation.annotation.Validated;
 
 import kakaopay.membership.common.MembershipType;
+import kakaopay.membership.common.exception.WrongMembershipIdException;
 import kakaopay.membership.domain.User;
 import kakaopay.membership.domain.UserMembershipInfo;
 
@@ -46,10 +47,16 @@ public class UserMembershipReqDTO {
 
 
     public UserMembershipInfo toPostEntity(User user){
-        MembershipType membershipType = MembershipType.valueOf(this.membershipId);
-        //create entity object to persist
-        UserMembershipInfo membershipInfo = new UserMembershipInfo(null, membershipType, user, LocalDateTime.now(), point,"Y");
-        return membershipInfo;
+        try{
+            MembershipType membershipType = MembershipType.valueOf(this.membershipId);
+            //create entity object to persist
+            UserMembershipInfo membershipInfo = new UserMembershipInfo(null, membershipType, user, LocalDateTime.now(), point,"Y");
+            return membershipInfo;
+        }catch(IllegalArgumentException e){
+            throw new WrongMembershipIdException();
+        }
+
+       
     }
 
 

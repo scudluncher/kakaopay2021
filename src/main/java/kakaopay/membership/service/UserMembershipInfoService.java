@@ -89,12 +89,17 @@ public class UserMembershipInfoService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     private UserMembershipInfo findMembershipByUserIdAndMembershipId(String userId, String membershipId){
-        UserMembershipInfo membershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
-        if (membershipInfo==null){
-            throw new NotRegisteredMembershipException();
-        }else {
-            return membershipInfo;
+        try{
+            UserMembershipInfo membershipInfo = membershipRepo.findByUser_userIdAndMembershipType(userId, MembershipType.valueOf(membershipId));
+            if (membershipInfo==null){
+                throw new NotRegisteredMembershipException();
+            }else {
+                return membershipInfo;
+            }
+        }catch(IllegalArgumentException e){
+            throw new WrongMembershipIdException();
         }
+    
     }
 
 
