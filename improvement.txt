@@ -1,0 +1,13 @@
+1.stream ==> for?
+로 써도 충분하지 않았을까? 혹은 AtomicInteger 대신 다른 것?
+YDH : 굳이 stream을 꼭 써야하는거 아니면 안써도된다고봄. 물론 가독성 측면, 코드컨벤션에 정의되어있다면 쓰는게 좋고.. lazy하게 동작하는것도 사실 for문에서 lazy하게 다 할 수 있긴해서..
+Lazy?
+
+ 
+
+
+2. 밸리데이션은 가급적 controller 에서?  --> 생성자 에서 굳이 try cathc 는 좀!
+
+
+3. CustomResponse 쪽의 Object return 보다는 type <T> ?
+
